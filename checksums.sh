@@ -1,7 +1,6 @@
 #!/bin/bash
 2>&1
-1>log_checksums.txt
-date
+date > log_checksums.txt
 
 dir="/Users/ehresms/computational/ATAC/FASTQ/readSetLinks"
 
@@ -14,5 +13,5 @@ for file in $(ls ${dir} | grep -v ".md5" | grep -e ".gz"); do
 	else 
 		echo "${file} checked and not ok \\n file_md5 is ${file_md5} and md5 is ${md5}"
 	fi
-done
+done >> log_checksums.txt
 
