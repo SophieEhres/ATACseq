@@ -4,6 +4,7 @@ genome="${SCRATCH}/genomes/bowtie"
 trim_dir="${SCRATCH}/ATAC/trim"
 job_dir="${SCRATCH}/scripts/ATACseq/job_files/align"
 align_dir="${SCRATCH}/ATAC/align"
+bowtie="${SCRATCH}/tools/bowtie2-2.4.2-linux-x86_64/bowtie2"
 
 mkdir -p ${job_dir}
 mkdir -p ${align_dir}
@@ -33,7 +34,7 @@ module load python
 gunzip ${file_1}
 gunzip ${file_2}
 
-python bowtie2 -x ${genome} -1 ${file_f} -2 ${file_r} \
+python ${bowtie2} -x ${genome} -1 ${file_f} -2 ${file_r} \
 --phred33 --very-sensitive -X 1000 --no-discordant \
 -t --threads 20 -S ${align_dir}/${sample}_aligned.sam
 
