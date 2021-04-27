@@ -31,8 +31,8 @@ echo "#!/bin/bash
 
 module load python
 
-gunzip ${file_1}
-gunzip ${file_2}
+gunzip -k ${file_1}
+gunzip -k ${file_2}
 
 python ${bowtie2} -x ${genome} -1 ${file_f} -2 ${file_r} \
 --phred33 --very-sensitive -X 1000 --no-discordant \

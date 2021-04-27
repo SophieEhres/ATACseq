@@ -22,8 +22,8 @@ file_2=$(ls ${trim_dir}/*.gz | grep -e ${sample} | grep -e "reverse_paired")
 file_f=$(echo ${file_1} | cut -d "." -f1-2)
 file_r=$(echo ${file_2} | cut -d "." -f1-2)
 
-gunzip ${file_1}
-gunzip ${file_2}
+gunzip -k ${file_1}
+gunzip -k ${file_2}
 
 bowtie2 -x ${genome} -1 ${file_f} -2 ${file_r} \
 --phred33 --very-sensitive -X 1000 --no-discordant \
