@@ -1,5 +1,5 @@
 #!/bin/bash
-date>log_align.txt
+date>log_align_${date}.txt
 
 
 computational="/Users/ehresms/computational"
@@ -13,6 +13,10 @@ samples=$(ls ${trim_dir} | cut -d "_" -f1 | uniq )
 echo "samples are ${samples}"
 
 for sample in ${samples}; do
+
+if ls ${align_dir} | grep -e ${sample}; then
+    echo "${sample} is already aligned"
+else 
 echo "aligning ${sample}"
 
 file_1=$(ls ${trim_dir}/*.gz | grep -e ${sample} | grep -e "forward_paired")
@@ -32,5 +36,6 @@ rm ${file_f}
 rm ${file_r}
 echo "done aligning ${sample}"
 
+fi
 done
 
