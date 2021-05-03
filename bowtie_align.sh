@@ -1,6 +1,7 @@
 #!/bin/bash
-date>log_align_${date}.txt
-
+now=$(date +"%Y-%m-%d-%H-%M")
+exho "${now}" >log_align_${now}
+bowtie2 --version > log_align_${now}
 
 computational="/Users/ehresms/computational"
 genome="${computational}/genomes/human/bowtie2/GRCh38_noalt_as/GRCh38_noalt_as"
@@ -37,5 +38,6 @@ rm ${file_r}
 echo "done aligning ${sample}"
 
 fi
+
 done
 
