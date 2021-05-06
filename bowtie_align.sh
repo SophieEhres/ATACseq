@@ -1,7 +1,7 @@
 #!/bin/bash
 now=$(date +"%Y-%m-%d-%H-%M")
-exho "${now}" >log_align_${now}
-bowtie2 --version > log_align_${now}
+echo "${now}" >bowtie_align_${now}.log
+bowtie2 --version >> bowtie_align_${now}.log
 
 computational="/Users/ehresms/computational"
 genome="${computational}/genomes/human/bowtie2/GRCh38_noalt_as/GRCh38_noalt_as"
@@ -31,7 +31,7 @@ gunzip -k ${file_2}
 
 bowtie2 -x ${genome} -1 ${file_f} -2 ${file_r} \
 --phred33 --very-sensitive -X 1000 --no-discordant \
--t --threads 30 -S ${align_dir}/${sample}_aligned.sam 2>>log_align.txt
+-t --threads 30 -S ${align_dir}/${sample}_aligned.sam 2>>bowtie_align_${now}.log
 
 rm ${file_f}
 rm ${file_r}
