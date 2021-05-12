@@ -15,6 +15,12 @@ samples=$(ls ${fastq_dir}/*.gz | rev | cut -d "/" -f1 | cut -d "_" -f2 | rev | u
 
 for sample in ${samples}; do 
 
+    if [find -name ${trim_dir}/${sample}_forward_paired.fq.gz ]; then
+   
+        echo "${sample} already trimmed"
+    
+    else
+
     files="$(ls ${fastq_dir}/*.gz | grep -e ${sample} | tr '\n' ' ')"
     echo "files are ${files}" 
     
@@ -35,4 +41,6 @@ ILLUMINACLIP:${adapters}/Illumina_Nextera_PE.fa:2:30:10
 "> ${trim_job}/${sample}_trimjob.sh 
 #sbatch --account=def-sauvagm ${sample}_trimjob.sh 
 
+    fi
+    
 done
