@@ -1,7 +1,7 @@
 #!/bin/bash
 
-fastq_dir="${1}"
-trim_dir="${2}"
+fastq_dir="${SCRATCH}/ATAC/fastq"
+trim_dir="${SCRATCH}/ATAC/trim"
 tool_dir="${SCRATCH}/tools"
 trimmomatic="${tool_dir}/Trimmomatic-0.39/trimmomatic-0.39.jar"
 adapters="${tool_dir}/Trimmomatic-0.39/adapters"
