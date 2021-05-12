@@ -1,10 +1,18 @@
 #!/bin/bash
-now=$(date +"%Y-%m-%d-%H-%M")
-echo "${now}" >log_mito_${now}
+#SBATCH --time=6:00:00
+#SBATCH --job-name=getmitoreads
+#SBATCH --output=getmitoreads.log
+#SBATCH --ntasks=20
+#SBATCH --mem-per-cpu=4000
+#SBATCH --mail-type=FAIL
+#SBATCH --mail-user=sophie.ehresmann@gmail.com
+#SBATCH --account=def-sauvagm
 
-computational="/Users/ehresms/computational"
-align_dir="${computational}/ATAC/align"
-sorted_dir="${computational}/ATAC/sorted"
+now=$(date +"%Y-%m-%d-%H-%M")
+echo "${now}" >getmitoreads.log
+
+align_dir="${SCRATCH}/ATAC/align"
+sorted_dir="${SCRATCH}/ATAC/sorted"
 
 mkdir -p ${sorted_dir}
 
@@ -17,8 +25,10 @@ for file in ${files}; do
     totalreads=$(samtools view -h ${file} | wc -l)
 
     sum=$(expr ${mitoreads} * 100)
-    percentage=$(${sum} / ${totalreads})
+    percentage=$(expr ${sum} / ${totalreads})
 
-    echo "there are ${mitoreads} mitochondrial reads for a total of ${totalreads}, accounting for ${percentage} % of reads" >> log_mito_${now}
-    samtools view -@ 30 -h ${file} | grep -v "chrM" | samtools sort -@ 30 -o ${sorted_dir}/${name}_sorted-rmChrM.sam 2>>log_mito_${now}
+    echo "For sample ${name}, there are ${mitoreads} mitochondrial reads for a total of ${totalreads}, accounting for ${percentage} % of reads" >> getmitoreads.log
+
+    samtools view -@ 30 -h ${file} | grep -v "chrM" | samtools sort -@ 30 -o ${sorted_dir}/${name}_sorted-rmChrM.sam 2>> getmitoreads.log
+
 done

@@ -6,7 +6,7 @@ fastq_dir="/Users/ehresms/computational/ATAC/FASTQ"
 samples=$(ls ${fastq_dir} grep -e "fastq." | rev | cut -d "_" -f2 | rev | uniq)
 trimmomatic="/Users/ehresms/computational/tools/Trimmomatic-0.39/trimmomatic-0.39.jar"
 adapters="/Users/ehresms/computational/tools/Trimmomatic-0.39/adapters"
-trim_dir="/Users/ehresms/computational/ATAC/trimming"
+trim_dir="/Users/ehresms/computational/ATAC/trim"
 
 mkdir -p ${trim_dir}
 
