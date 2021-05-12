@@ -28,7 +28,7 @@ file_f=$(echo ${file_1} | cut -d "." -f1-2)
 file_r=$(echo ${file_2} | cut -d "." -f1-2)
 
 echo "#!/bin/bash
-#SBATCH --time=6:00:00
+#SBATCH --time=9:00:00
 #SBATCH --job-name=bowtie_align_${sample}
 #SBATCH --output=${outdir}/bowtie_align_${sample}.log
 #SBATCH --ntasks=20
