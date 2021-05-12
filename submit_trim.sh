@@ -10,17 +10,18 @@ trim_job="${SCRATCH}/scripts/RNAseq/trim_jobs"
 mkdir -p ${trim_dir}
 mkdir -p ${trim_job}
 
-samples=$(ls ${fastq_dir}/*.gz | rev | cut -d "/" -f1 | cut -d "_" -f2 | rev | uniq )
+samples=$(ls ${fastq_dir}/*.gz | rev | cut -d "/" -f1 | cut -d "_" -f2 | rev | uniq)
 
 
 for sample in ${samples}; do 
 
-    if [find -name ${trim_dir}/${sample}_forward_paired.fq.gz ]; then
+    if [ -f ${trim_dir}/${sample}_forward_paired.fq.gz ] ; then
    
         echo "${sample} already trimmed"
     
     else
 
+    echo "creating job to trim ${sample}"
     files="$(ls ${fastq_dir}/*.gz | grep -e ${sample} | tr '\n' ' ')"
     echo "files are ${files}" 
     
@@ -39,8 +40,9 @@ ${trim_dir}/${sample}_forward_paired.fq.gz ${trim_dir}/${sample}_forward_unpaire
 ${trim_dir}/${sample}_reverse_paired.fq.gz ${trim_dir}/${sample}_reverse_unpaired.fq.gz \
 ILLUMINACLIP:${adapters}/Illumina_Nextera_PE.fa:2:30:10
 "> ${trim_job}/${sample}_trimjob.sh 
-#sbatch --account=def-sauvagm ${sample}_trimjob.sh 
+
+sbatch --account=def-sauvagm ${trim_job}/${sample}_trimjob.sh 
 
     fi
-    
+
 done

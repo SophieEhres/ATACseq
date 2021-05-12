@@ -10,9 +10,15 @@ mkdir -p ${aligndir}
 mkdir -p ${jobdir}
 
 samples=$(ls ${trimdir} | cut -d "_" -f1 | uniq)
-echo "samples are ${samples}"
 
 for sample in ${samples}; do
+
+    if [ -f ${aligndir}/${sample}_aligned.sam ] ; then
+   
+        echo "${sample} already aligned"
+    
+    else
+    echo "creating job to align ${sample}"
 
 file_1=$(ls ${trimdir}/*.gz | grep -e "${sample}" | grep -e "forward_paired")
 file_2=$(ls ${trimdir}/*.gz | grep -e "${sample}" | grep -e "reverse_paired")
@@ -48,8 +54,8 @@ echo "done aligning ${sample}"
 
 " > ${jobdir}/${sample}_align.sh
 
-done
+    sbatch --account=def-sauvagm ${jobdir}/${sample}_align.sh 
 
-for file in $(ls ${jobdir}); do
-sbatch ${jobdir}/${file}
+    fi
+
 done
