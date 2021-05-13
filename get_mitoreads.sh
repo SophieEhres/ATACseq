@@ -32,6 +32,7 @@ samtools view -h ${file} | grep -e "chrM" | wc -l > ${name}_mitoreads.txt
 samtools view -h ${file} | wc -l >> ${name}_mitoreads.txt
 
 samtools view -@ 20 -h ${file} | grep -v "chrM" | samtools sort -@ 20 -o ${sorted_dir}/${name}_sorted-rmChrM.bam -O bam 2>> ${outdir}/${name}_getmitoreads.log
+samtools index -@ 20 ${sorted_dir}/${name}_sorted-rmChrM.bam ${sorted_dir}/${name}_sorted-rmChrM.bai
 " > ${jobdir}/${name}_getmitoreads.sh
 
 sbatch ${jobdir}/${name}_getmitoreads.sh
