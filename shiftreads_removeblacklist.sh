@@ -4,9 +4,10 @@ sortdir="${SCRATCH}/ATAC/sorted"
 shiftdir="${SCRATCH}/ATAC/shift"
 blacklist="${SCRATCH}/genomes/human/hg38/blacklist/lists/hg38-blacklist.v2.bed"
 metricdir="${SCRATCH}/ATAC/shiftmetrics"
-logdir="${SCRATCH}/scripts/ATACseq/out_files"
+logdir="${SCRATCH}/scripts/ATACseq/out_files/shift"
 jobdir="${SCRATCH}/scripts/ATACseq/job_files/shift"
 
+mkdir -p ${logdir}
 mkdir -p ${shiftdir}
 mkdir -p ${metricdir}
 mkdir -p ${jobdir}
@@ -14,7 +15,7 @@ mkdir -p ${jobdir}
 
 for name in $(ls ${sortdir}| rev | cut -d "_" -f2- | rev ); do
 
-    file=${sortdir}/${name}_sorted-rmChrM.sam
+    file=${sortdir}/${name}_sorted-rmChrM.bam
 
 echo "#!/bin/bash
 #SBATCH --time=5:00:00
@@ -38,6 +39,6 @@ alignmentSieve -b ${file} \
 
 " > ${jobdir}/${name}_shift.sh
 
-#sbatch --account=def-sauvagm ${jobdir}/${name}_shift.sh
+sbatch --account=def-sauvagm ${jobdir}/${name}_shift.sh
 
 done
