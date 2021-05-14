@@ -24,7 +24,7 @@ echo "#!/bin/bash
 #SBATCH --job-name=${name}_getmitoreads
 #SBATCH --output=${outdir}/${name}_getmitoreads.log
 #SBATCH --ntasks=20
-#SBATCH --mem-per-cpu=8000
+#SBATCH --mem-per-cpu=10000
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=sophie.ehresmann@gmail.com
 #SBATCH --account=def-sauvagm
