@@ -5,13 +5,16 @@ shiftdir="${SCRATCH}/ATAC/shift"
 blacklist="${SCRATCH}/genomes/human/hg38/blacklist/lists/hg38-blacklist.v2.bed"
 logdir="${SCRATCH}/scripts/ATACseq/out_files/shift"
 jobdir="${SCRATCH}/scripts/ATACseq/job_files/shift"
+metricdir="${SCRATCH}/ATAC/shiftmetrics"
+
 
 mkdir -p ${logdir}
 mkdir -p ${shiftdir}
 mkdir -p ${jobdir}
+mkdir -p ${metricdir}
 
 
-for name in $(ls ${sortdir}| rev | cut -d "_" -f2- | rev | head -n 1); do
+for name in $(ls ${sortdir}| rev | cut -d "_" -f2- | rev); do
 
     file=${sortdir}/${name}_sorted-rmChrM.bam
 
@@ -37,8 +40,9 @@ module load python
 deeptools --version >> ${logdir}/${name}_shift.log
 
 alignmentSieve -b ${file} \
--p 20 --ATACshift -bl ${blacklist} \
--o ${shiftdir}/${name}_shift.bam 2 >>  ${logdir}/${name}_shift.log
+-p 20 --filterMetrics ${metricdir}/${name}.dTmetrics.txt \
+--ATACshift -bl ${blacklist} -o ${shiftdir}/${name}_shift.bam
+
 
 " > ${jobdir}/${name}_shift.sh
 
