@@ -14,7 +14,7 @@ mkdir -p ${jobdir}
 mkdir -p ${metricdir}
 
 
-for name in $(ls ${sortdir}| rev | cut -d "_" -f2- | rev); do
+for name in $(ls ${sortdir}/*.bam | xargs -n 1 basename | rev | cut -d "_" -f2- | rev); do
 
     file=${sortdir}/${name}_sorted-rmChrM.bam
 
@@ -45,7 +45,7 @@ alignmentSieve -b ${file} \
 
 
 " > ${jobdir}/${name}_shift.sh
-
+    echo "submitting shift job for ${name}"
 sbatch --account=def-sauvagm ${jobdir}/${name}_shift.sh
 
     fi
