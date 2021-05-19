@@ -32,11 +32,11 @@ echo "#!/bin/bash
 echo "$(date +"%Y-%m-%d-%H-%M")" >> ${outdir}/${name}_getmitoreads.log
 samtools --version >> ${outdir}/${name}_getmitoreads.log
 
-samtools view -h ${file} | grep -e "chrM" | wc -l > ${name}_mitoreads.txt
-samtools view -h ${file} | wc -l >> ${name}_mitoreads.txt
+samtools view -m 8G -h ${file} | grep -e "chrM" | wc -l > ${name}_mitoreads.txt
+samtools view -m 8G -h ${file} | wc -l >> ${name}_mitoreads.txt
 
-samtools view -@ 20 -h ${file} | grep -v "chrM" | samtools sort -@ 20 -o ${sorted_dir}/${name}_sorted-rmChrM.bam -O bam 2>> ${outdir}/${name}_getmitoreads.log
-samtools index -@ 20 ${sorted_dir}/${name}_sorted-rmChrM.bam ${sorted_dir}/${name}_sorted-rmChrM.bai
+samtools view -m 8G -@ 20 -h ${file} | grep -v "chrM" | samtools sort -@ 20 -o ${sorted_dir}/${name}_sorted-rmChrM.bam -O bam 2>> ${outdir}/${name}_getmitoreads.log
+samtools index -m 8G -@ 20 ${sorted_dir}/${name}_sorted-rmChrM.bam ${sorted_dir}/${name}_sorted-rmChrM.bai
 " > ${jobdir}/${name}_getmitoreads.sh
 
     sbatch ${jobdir}/${name}_getmitoreads.sh

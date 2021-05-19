@@ -20,6 +20,8 @@ for name in $(ls ${sortdir}/*.bam | xargs -n 1 basename | rev | cut -d "_" -f2- 
 
     if [ -f ${shiftdir}/${name}_shift.bam ]; then
         echo "${name} already shifted"
+    elif [ -f ${shiftdir}/${name}_shift_sort.bam ]; then
+        echo "${name} already shifted and sorted"
     else
 
 echo "#!/bin/bash
