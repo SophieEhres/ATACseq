@@ -14,7 +14,7 @@ mkdir -p ${metricdir}
 mkdir -p ${cleandir}
 
 
-for name in $(ls ${shiftdir}| grep -v "sort" | rev | cut -d "_" -f2- | rev ); do
+for name in $(ls ${shiftdir}| grep -e "sort" | rev | cut -d "_" -f2- | rev ); do
 
     file=${shiftdir}/${name}_shift.bam
 
@@ -23,11 +23,11 @@ for name in $(ls ${shiftdir}| grep -v "sort" | rev | cut -d "_" -f2- | rev ); do
     else
 
 echo "#!/bin/bash
-#SBATCH --time=5:00:00
+#SBATCH --time=1:00:00
 #SBATCH --job-name=removeduplicates_${name}
 #SBATCH --output=${logdir}/${name}_dup.log
-#SBATCH --ntasks=20
-#SBATCH --mem-per-cpu=12G
+#SBATCH --ntasks=10
+#SBATCH --mem-per-cpu=20G
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=sophie.ehresmann@gmail.com
 #SBATCH --account=def-sauvagm
@@ -36,7 +36,7 @@ echo "$(date +"%Y-%m-%d-%H-%M")" >> ${logdir}/${name}_dup.log
 
 module load picard java/11.0.2
 
-samtools sort -m 8G -@ 20 -o ${shiftdir}/${name}_shift_sort.bam -O bam ${file}
+samtools sort -@ 10 -o ${shiftdir}/${name}_shift_sort.bam -O bam ${file}
 
 if [ -f ${shiftdir}/${name}_shift_sort.bam ]; then
 
@@ -50,7 +50,7 @@ java -Xmx20G -jar /cvmfs/soft.computecanada.ca/easybuild/software/2020/Core/pica
 -O ${markdupdir}/${name}_markdup.bam \
 --REMOVE_DUPLICATES false
 
-samtools view -m 8G  -F 1804 ${markdupdir}/${name}_markdup.bam > ${cleandir}/${name}_clean.bam
+samtools view -m 8G -@ 10 -F 1804 -b -h ${markdupdir}/${name}_markdup.bam > ${cleandir}/${name}_clean.bam
 
 else
 
