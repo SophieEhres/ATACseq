@@ -18,7 +18,7 @@ for name in $(ls ${peakdir} | head -n 1); do
     mitoreads=$(cat ${mitodir}/${name}_mitoreads.txt | head -n 1)
 
     blacklistreads=$(sed '3q;d' ${blacklistmetdir}/${name}.dTmetrics.txt | awk '{print $2}')
-    totalreads=$(sed '3q;d' ${blackli stmetdir}/${name}.dTmetrics.txt | awk '{print $3}')
+    totalreads=$(sed '3q;d' ${blacklistmetdir}/${name}.dTmetrics.txt | awk '{print $3}')
     removedblacklist=$(expr ${totalreads} - ${blacklistreads})
     removedfragments=$(expr ${removedblacklist} \\ 2)
 
