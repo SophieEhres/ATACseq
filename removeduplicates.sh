@@ -14,7 +14,7 @@ mkdir -p ${metricdir}
 mkdir -p ${cleandir}
 
 
-for name in $(ls ${shiftdir}| grep -e "sort" | rev | cut -d "_" -f2- | rev ); do
+for name in $(ls ${shiftdir} | grep -v "sort" | rev | cut -d "_" -f2- | rev ); do
 
     file=${shiftdir}/${name}_shift.bam
 
