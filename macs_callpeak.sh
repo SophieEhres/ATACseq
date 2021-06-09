@@ -11,7 +11,7 @@ mkdir -p ${jobdir}
 mkdir -p ${peakdir}
 
 
-for name in $(ls ${cleandir} | rev | cut -d "_" -f2- | rev); do
+for name in $(ls ${cleandir}/*.bam | xargs -n 1 basename | rev | cut -d "_" -f2- | rev); do
 
  file=${cleandir}/${name}_clean.bam
 
