@@ -32,7 +32,7 @@ echo "#!/bin/bash
 #SBATCH --job-name=bowtie_align_${sample}
 #SBATCH --output=${outdir}/bowtie_align_${sample}.log
 #SBATCH --ntasks=20
-#SBATCH --mem-per-cpu=4000
+#SBATCH --mem-per-cpu=6G
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=sophie.ehresmann@gmail.com
 #SBATCH --account=def-sauvagm
@@ -46,7 +46,7 @@ gunzip -k ${file_2}
 
 bowtie2 -x ${genome} -1 ${file_f} -2 ${file_r} \
 --phred33 --very-sensitive -X 1000 --no-discordant \
--t --threads 30 -S ${aligndir}/${sample}_aligned.sam 2>> ${outdir}/bowtie_align_${sample}.log
+-t --threads 20 -S ${aligndir}/${sample}_aligned.sam 2>> ${outdir}/bowtie_align_${sample}.log
 
 rm ${file_f}
 rm ${file_r}
