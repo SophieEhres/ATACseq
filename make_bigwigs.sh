@@ -31,7 +31,9 @@ echo "#!/bin/bash
 #SBATCH --account=def-sauvagm
 
 bamCoverage --version >> ${outdir}/bigwig_${name}.log
-bamCoverage -b ${file} -o ${wigdir}/${name}.bw -p 20
+bamCoverage -b ${file} \
+-o ${wigdir}/${name}.bw -p 20 \
+--normalizeUsing RPKM
 
 " > ${jobdir}/${name}_bigwig.sh
 
