@@ -31,12 +31,12 @@ echo "#!/bin/bash
 
 module load python scipy-stack
 
-echo "$(date +"%Y-%m-%d-%H-%M")" >> ${logdir}/${name}_dup.log
+echo "$(date +"%Y-%m-%d-%H-%M")" >> ${logdir}/#SBATCH --output=${logdir}/${name}_peak.log
 
-macs2 --version >> ${logdir}/${name}_dup.log
+macs2 --version >> ${logdir}/#SBATCH --output=${logdir}/${name}_peak.log
 
 macs2 callpeak -t ${file} -n ${name} --outdir ${peakdir}/${name} \
--f BAMPE --nomodel --keep-dup all --nolambda 2>>${logdir}/${name}_dup.log
+-f BAMPE --nomodel --keep-dup all --nolambda 2>>${logdir}/#SBATCH --output=${logdir}/${name}_peak.log
 
 " > ${jobdir}/${name}_peak.sh
     
