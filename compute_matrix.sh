@@ -39,6 +39,12 @@ computeMatrix scale-regions -S ${files} -R ${consensus} \
 -o ${matrixdir}/${day}_scaleRegions.gz -p 20 \
 -b 1500 -a 1500
 
+
+computeMatrix reference-point \
+--referencePoint TSS -S ${files} -R ${consensus} \
+-o ${matrixdir}/${day}_TSS.gz -p 20 \
+-b 1500 -a 1500
+
 " > ${jobdir}/${day}_matrix.sh
 
     sbatch --account=def-sauvagm ${jobdir}/${day}_matrix.sh 
