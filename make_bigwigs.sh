@@ -30,6 +30,13 @@ echo "#!/bin/bash
 #SBATCH --mail-user=sophie.ehresmann@gmail.com
 #SBATCH --account=def-sauvagm
 
+if [ -f ${file}.bai ]; then
+    echo -e "file indexed, moving to bigwig generation"
+
+else
+    samtools index -@ 20 ${file}
+fi
+
 bamCoverage --version >> ${outdir}/bigwig_${name}.log
 bamCoverage -b ${file} \
 -o ${wigdir}/${name}.bw -p 20 \
