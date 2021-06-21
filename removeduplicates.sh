@@ -14,9 +14,9 @@ mkdir -p ${metricdir}
 mkdir -p ${cleandir}
 
 
-for name in $(ls ${shiftdir} | grep -v "sort" | rev | cut -d "_" -f2- | rev ); do
+for name in $(ls ${shiftdir} | rev | cut -d "_" -f3- | rev ); do
 
-    file=${shiftdir}/${name}_shift.bam
+    file=$(ls ${shiftdir} | grep -e "${name}")
 
     if [ -f ${cleandir}/${name}_clean.bam ]; then
         echo "${name} already removed duplicates"
@@ -43,12 +43,18 @@ if [ -f ${shiftdir}/${name}_shift_sort.bam ]; then
 echo "file sorted" >>  ${logdir}/${name}_dup.log
 rm ${file}
 
+if [ -f ${markdupdir}/${name}_markdup.bam ]; then
+echo "already marked duplicates" > ${logdir}/${name}_dup.log
+
+else 
 
 java -jar /cvmfs/soft.computecanada.ca/easybuild/software/2020/Core/picard/2.23.3/picard.jar MarkDuplicates --version >> ${logdir}/${name}_dup.log
 
 java -Xmx20G -jar /cvmfs/soft.computecanada.ca/easybuild/software/2020/Core/picard/2.23.3/picard.jar MarkDuplicates -I ${shiftdir}/${name}_shift_sort.bam -M ${metricdir}/${name}_dupmetrics.txt \
 -O ${markdupdir}/${name}_markdup.bam \
 --REMOVE_DUPLICATES false
+
+fi
 
 samtools view -m 8G -@ 10 -F 1804 -b -h ${markdupdir}/${name}_markdup.bam > ${cleandir}/${name}_clean.bam
 
